@@ -278,7 +278,9 @@ def poisson_chi2(n: ArrayLike, mu: ArrayLike) -> float:
     which helps to maximise the numerical accuracy for Minuit.
     """
     n, mu = np.atleast_1d(n, mu)
-    return 2 * np.sum(mu - n + n * (_safe_log(n) - _safe_log(mu)))
+    costs = mu - n + n * (_safe_log(n) - _safe_log(mu))
+    costs.sort()
+    return 2 * np.sum(costs)
 
 
 def template_chi2_jsc(n: ArrayLike, mu: ArrayLike, mu_var: ArrayLike) -> float:
